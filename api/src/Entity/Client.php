@@ -25,8 +25,8 @@ class Client
     #[ORM\Column(length: 13)]
     private ?string $pasportNumber = null;
 
-//    #[ORM\OneToMany(targetEntity: Credit::class,mappedBy: "")]
-//    private ?Credit $credit = null;
+    #[ORM\OneToMany(targetEntity: Credit::class,mappedBy: "client")]
+    private ?Credit $credit = null;
     public function getId(): ?int
     {
         return $this->id;
