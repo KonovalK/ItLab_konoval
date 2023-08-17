@@ -26,6 +26,7 @@ class ProductRepository extends ServiceEntityRepository
      * @return float|int|mixed|string
      */
     public function getAllProductByName(string $name){
+        echo "jnfwjnsdjncjknjdsjkvjendjvcs";
         return $this->createQueryBuilder("product")->andWhere("product.name LIKE :name")->setParameter("name","%".$name."%")->getQuery()->getResult();
 
     }
