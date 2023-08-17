@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientsRepository;
+use App\Repository\ClientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ClientsRepository::class)]
-class Clients
+#[ORM\Entity(repositoryClass: ClientRepository::class)]
+class Client
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,6 +25,8 @@ class Clients
     #[ORM\Column(length: 13)]
     private ?string $pasportNumber = null;
 
+//    #[ORM\OneToMany(targetEntity: Credit::class,mappedBy: "")]
+//    private ?Credit $credit = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -35,7 +37,7 @@ class Clients
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -47,7 +49,7 @@ class Clients
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(string $phoneNumber): static
+    public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
@@ -59,7 +61,7 @@ class Clients
         return $this->adress;
     }
 
-    public function setAdress(string $adress): static
+    public function setAdress(string $adress): self
     {
         $this->adress = $adress;
 
@@ -71,7 +73,7 @@ class Clients
         return $this->pasportNumber;
     }
 
-    public function setPasportNumber(string $pasportNumber): static
+    public function setPasportNumber(string $pasportNumber): self
     {
         $this->pasportNumber = $pasportNumber;
 

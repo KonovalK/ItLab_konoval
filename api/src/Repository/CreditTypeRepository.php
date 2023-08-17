@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Clients;
+use App\Entity\CreditType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Clients>
+ * @extends ServiceEntityRepository<CreditType>
  *
- * @method Clients|null find($id, $lockMode = null, $lockVersion = null)
- * @method Clients|null findOneBy(array $criteria, array $orderBy = null)
- * @method Clients[]    findAll()
- * @method Clients[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CreditType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CreditType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CreditType[]    findAll()
+ * @method CreditType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ClientsRepository extends ServiceEntityRepository
+class CreditTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Clients::class);
+        parent::__construct($registry, CreditType::class);
     }
 
 //    /**
-//     * @return Clients[] Returns an array of Clients objects
+//     * @return CreditType[] Returns an array of CreditType objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class ClientsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Clients
+//    public function findOneBySomeField($value): ?CreditType
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
