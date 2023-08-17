@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
-use mysql_xdevapi\Exception;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Flex\Response;
 
-class TestController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @var EntityManagerInterface
@@ -28,30 +27,21 @@ class TestController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('create', name: 'product_create')]
+    #[Route('category-create', name: 'category_create')]
     public function create(Request $request): JsonResponse
     {
         $requestData=json_decode($request->getContent(),true);
-        if(!isset($requestData['price'],$requestData['name'],$requestData['description'],$requestData['category'])){
+        if(!isset($requestData['name'],$requestData['type'])){
             throw new Exception("Invalid Request Data");
         }
+        $category=new Category();
 
-        //Достаем обьект категории по id
-        $category=$this->entityManager->getRepository(Category::class)->find($requestData['category']);
-
-        if(!$category){
-            throw new Exception("Category with id ". $requestData['category'] ."not found");
-        }
-
-        $product=new Product();
-        $product->setPrice($requestData['price']);
-        $product->setName($requestData['name']);
-        $product->setDesciption($requestData['description']);
-        $product->setCategory($category);
-        $this->entityManager->persist($product);
+        $category->setName($requestData['name']);
+        $category->setType($requestData['type']);
+        $this->entityManager->persist($category);
 
         $this->entityManager->flush();
-        return new JsonResponse($product,Response::HTTP_CREATED);
+        return new JsonResponse($category, \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
     }
 
     #[Route('getAll', name: 'product_read')]

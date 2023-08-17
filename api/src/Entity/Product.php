@@ -22,6 +22,31 @@ class Product implements \JsonSerializable
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $desciption = null;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: "products")]
+    private ?Category $category=null;
+
+    #[ORM\OneToOne(targetEntity: ProductInfo::class)]
+    private ?ProductInfo $productInfo=null;
+
+    public function getProductInfo(): ?ProductInfo
+    {
+        return $this->productInfo;
+    }
+
+    public function setProductInfo(?ProductInfo $productInfo): void
+    {
+        $this->productInfo = $productInfo;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
+    }
 
     public function getId(): ?int
     {
@@ -33,7 +58,7 @@ class Product implements \JsonSerializable
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -45,7 +70,7 @@ class Product implements \JsonSerializable
         return $this->price;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
@@ -57,7 +82,7 @@ class Product implements \JsonSerializable
         return $this->desciption;
     }
 
-    public function setDesciption(string $desciption): static
+    public function setDesciption(string $desciption): self
     {
         $this->desciption = $desciption;
 
@@ -66,6 +91,6 @@ class Product implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return["name"=>$this->getName(),"price"=>$this->getPrice(),"description"=>$this->getDesciption()];
+        return["name"=>$this->getName(),"price"=>$this->getPrice(),"description"=>$this->getDesciption(),"category"=>$this->getCategory()];
     }
 }
