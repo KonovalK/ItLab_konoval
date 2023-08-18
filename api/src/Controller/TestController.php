@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Client;
+use App\Entity\Credit;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use mysql_xdevapi\Exception;
@@ -28,30 +30,30 @@ class TestController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('create', name: 'product_create')]
-    public function create(Request $request): JsonResponse
+    #[Route(path:'create-client', name: 'create_client')]
+    public function createClient(Request $request): JsonResponse
     {
         $requestData=json_decode($request->getContent(),true);
-        if(!isset($requestData['price'],$requestData['name'],$requestData['description'],$requestData['category'])){
+        if(!isset($requestData['name'],$requestData['phoneNumber'],$requestData['adress'],$requestData['pasportNumber'],$requestData['credits'])){
             throw new Exception("Invalid Request Data");
         }
 
         //Достаем обьект категории по id
-        $category=$this->entityManager->getRepository(Category::class)->find($requestData['category']);
+//        $credits=$this->entityManager->getRepository(Credit::class)->findBy($requestData['credits']);
+//
+//        if(!$credits){
+//            throw new Exception("Category with id ". $requestData['category'] ."not found");
+//        }
 
-        if(!$category){
-            throw new Exception("Category with id ". $requestData['category'] ."not found");
-        }
-
-        $product=new Product();
-        $product->setPrice($requestData['price']);
-        $product->setName($requestData['name']);
-        $product->setDesciption($requestData['description']);
-        $product->setCategory($category);
-        $this->entityManager->persist($product);
-
+        $client=new Client();
+        $client->setName($requestData['name']);
+        $client->setAdress($requestData['adress']);
+        $client->setPhoneNumber($requestData['phoneNumber']);
+        $client->setPasportNumber($requestData['pasportNumber']);
+        $client->setCredits($requestData['credits']);
+        $this->entityManager->persist($client);
         $this->entityManager->flush();
-        return new JsonResponse($product,Response::HTTP_CREATED);
+        return new JsonResponse($client,Response::HTTP_CREATED);
     }
 
     #[Route('getAll', name: 'product_read')]

@@ -6,57 +6,106 @@ use App\Repository\DebtorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DebtorRepository::class)]
-class Debtor
+class Debtor implements \JsonSerializable
 {
+    /**
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $clientId = null;
+    /**
+     * @var Client|null
+     */
+    #[ORM\OneToOne(targetEntity: Client::class)]
+    private ?Client $client = null;
 
-    #[ORM\Column]
-    private ?int $creditId = null;
-    #[ORM\Column]
-    private ?int $collectorId = null;
+    /**
+     * @var Credit|null
+     */
+    #[ORM\OneToOne(targetEntity: Credit::class)]
+    private ?Credit $credit = null;
+    /**
+     * @var Collector|null
+     */
+    #[ORM\OneToMany(mappedBy: "debtors", targetEntity: Collector::class)]
+    private ?Collector $collector = null;
 
-    public function getCollectorId(): ?int
+    /**
+     * @return Collector|null
+     */
+    public function getCollector(): ?Collector
     {
-        return $this->collectorId;
+        return $this->collector;
     }
 
-    public function setCollectorId(?int $collectorId): void
+    /**
+     * @param Collector|null $collector
+     * @return void
+     */
+    public function setCollector(?Collector $collector): void
     {
-        $this->collectorId = $collectorId;
+        $this->collector = $collector;
     }
 
+    /**
+     * @return Credit|null
+     */
+    public function getCredit(): ?Credit
+    {
+        return $this->credit;
+    }
+
+    /**
+     * @param Credit|null $credit
+     * @return void
+     */
+    public function setCredit(?Credit $credit): void
+    {
+        $this->credit = $credit;
+    }
+
+    /**
+     * @return Client|null
+     */
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client|null $client
+     * @return void
+     */
+    public function setClient(?Client $client): void
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClientId(): ?int
+    /**
+     * @param int|null $id
+     * @return void
+     */
+    public function setId(?int $id): void
     {
-        return $this->clientId;
+        $this->id = $id;
     }
 
-    public function setClientId(int $clientId): static
+    /**
+     * @return void
+     */
+    public function jsonSerialize()
     {
-        $this->clientId = $clientId;
-
-        return $this;
-    }
-
-    public function getCreditId(): ?int
-    {
-        return $this->creditId;
-    }
-
-    public function setCreditId(int $creditId): static
-    {
-        $this->creditId = $creditId;
-
-        return $this;
+        // TODO: Implement jsonSerialize() method.
     }
 }
